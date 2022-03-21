@@ -1,0 +1,212 @@
+/******************************************************************************
+             Programa con funcion para encontrar un numero primo 
+
+Implementar una funcion esPrimo(int n) que devuelva true si y solo si n es primo. 
+Utiliza la funcion implementada para: 
+1: Escribir todos los numeros primos que hay entre dos naturales dados 
+2: Escribir el primer numero primo mayor que un natural dado
+3: Contar los primos menores que un natural dado 
+
+*******************************************************************************/
+
+#include <iostream>
+
+using namespace std;
+
+bool esPrimo(int numero);
+
+int main()
+{
+    string opciones, natural1, natural2, primoMayor, primoMenor;
+    int num;
+    
+    etiqueta: // La etiqueta sirve para saltar de un punto a otro en el codigo
+    do {
+       cout << "\n                 BIENVENIDO AL SISTEMA DE BUSQUEDA DE NUMEROS PRIMOS" << endl;
+       cout << "                                  (OPCIONES DEL MENU) \n" << "1) Escribir todos los numeros primos que hay entre dos naturales dados\n"; 
+       cout << "2) Escribir el primer numero primo mayor que un natural dado\n" << "3) Contar los primos menores que un natural dado\n" << "4) Salir del Programa" << endl;
+       cout << "\n------------------------------------------------------------\n" << "Escoga una de las opciones del Menu: ";
+       cin >> opciones;
+       
+       if (!(opciones == "1" or opciones == "2" or opciones == "3" or opciones == "4")){
+       cout << "\n-------------------------------------------------------------" << endl;
+       cout << "ERROR: DEBE ELEGIR UNA DE LAS OPCIONES DEL MENU\n" << endl;
+       }
+        
+    }while(!(opciones == "1" or opciones == "2" or opciones == "3" or opciones == "4"));
+    
+    num = stoi(opciones); // stoi() es una funcion que convierte una variable string en un entero
+
+    switch(num){
+        
+        case 1: // Escribir todos los numeros primos que hay entre dos naturales dados
+            
+            int largo1, largo2, num2, num3; 
+            int primo;
+            do{
+            num2 = 0;
+            num3 = 0;
+            cout << "--------------------------------------------------------" << endl;
+            cout << "Ingrese dos numeros naturales:\n" << "1: ";
+            cin >> natural1;
+            cout << "2: ";
+            cin >> natural2;
+            
+            largo1 = natural1.length(); // Indica el largo de las cadenas string
+            largo2 = natural2.length();
+         
+            
+            for (int i = 0; i < largo1; i++ ){
+                num2 = num2 + isdigit(natural1[i]); // '1' significa que el caracter si es un numero
+            }
+            
+            for (int i = 0; i < largo2; i++ ){
+                num3 = num3 + isdigit(natural2[i]); // '0' indicara que el caracter no es un numero 
+            }
+            
+            if (num2 != largo1 or num3 != largo2){
+                cout << "PORFAVOR INGRESAR SOLO NUMEROS NATURALES\n" << endl;  
+            }
+            
+            }while(num2 != largo1 or num3 != largo2);
+            
+            int numNatural1, numNatural2;
+            numNatural1 = stoi(natural1);
+            numNatural2 = stoi(natural2);
+         
+            if (numNatural2 >= numNatural1){
+                int noHay = 0;
+                for (int i = numNatural1; i <= numNatural2; i++){
+                    
+                    primo = esPrimo(i);
+                    if (primo == 1){
+                        cout << i << "\n";
+                        noHay = noHay + 1;
+                    }
+                }
+                if (noHay == 0){
+                    cout << "No hay numeros Primos" << endl;
+                }
+            }
+            else{
+                int noHay2 = 0;
+                for (int i = numNatural2; i <= numNatural1; i++){
+                    
+                    primo = esPrimo(i);
+                    if (primo == 1){
+                        cout << i << "\n";
+                        noHay2 = noHay2 + 1;
+                    }
+                }
+                if (noHay2 == 0){
+                    cout << "No hay numeros Primos" << endl;
+                }
+            }
+
+            goto etiqueta; // Indica que el codigo seguira desde donde esta la etiqueta 
+            
+        case 2: //Escribir el primer numero primo mayor que un natural dado
+            int largo, num4, mayor, mayor2; 
+            do{
+            num4 = 0;
+            
+            cout << "--------------------------------------------------------" << endl;
+            cout << "Ingrese un numero natural: ";
+            cin >> primoMayor;
+            
+            largo = primoMayor.length(); 
+            
+            for (int i = 0; i < largo; i++){
+                num4 = num4 + isdigit(primoMayor[i]); 
+            }
+            
+            if (num4 != largo){
+                cout << "PORFAVOR INGRESAR SOLO NUMEROS NATURALES\n" << endl;  
+            }
+            
+            }while(num4 != largo);
+
+            mayor = stoi(primoMayor);
+            mayor2 = stoi(primoMayor) + 1;
+            int respuesta;
+            respuesta = 0;
+            
+            while (respuesta == 0){
+                if (esPrimo(mayor2) == 1){
+                    cout << "El primer numero primo mayor que " << mayor << " es: " << mayor2 << "\n" << endl;
+                    respuesta = respuesta + 1;
+                }
+                else{
+                    mayor2 = mayor2 + 1;
+                }
+                
+            }
+            
+            goto etiqueta;
+        
+        case 3: // Contar los primos menores que un natural dado 
+            int largo3, num5, menor; 
+            do{
+            num5 = 0;
+            
+            cout << "--------------------------------------------------------" << endl;
+            cout << "Ingrese un numero natural: ";
+            cin >> primoMenor;
+            
+            largo3 = primoMenor.length(); 
+            
+            for (int i = 0; i < largo3; i++){
+                num5 = num5 + isdigit(primoMenor[i]); 
+            }
+            
+            if (num5 != largo3){
+                cout << "PORFAVOR INGRESAR SOLO NUMEROS NATURALES\n" << endl;  
+            }
+            
+            }while(num5 != largo3);
+            
+            menor = stoi(primoMenor);
+            int cont;
+            cont = 0;
+            
+            for(int i = 2; i<menor; i++){
+                
+                if (esPrimo(i)==1){
+                    cout << i << endl;
+                    cont = cont + 1;
+                }
+            }
+            
+            if (cont == 0){
+                cout << "No hay numeros primos";
+            }
+            
+            goto etiqueta;
+        case 4: 
+            break;
+    }
+}
+
+// Funcion Para Indntificar si un numero es primo 
+bool esPrimo(int numeroPrimo) {
+    
+    int resultadoNoPrimo = 0, primo; // resultadoNoPrimo es el contador que verifica si el numero es primo 
+    
+    for (int i = 2; i < numeroPrimo; i++){ // Se itera desde el 2 hasta el numero anterior al numero que se busca verificar
+        
+        primo = numeroPrimo % i;
+        
+        if (primo == 0){ // Si Primo es igual a 0 indica que su residuo es 0 y que no es un numero primo 
+            resultadoNoPrimo = resultadoNoPrimo + 1;
+        }
+    }
+    
+    if (resultadoNoPrimo == 0){ // Que resultadoNoPrimo sea 0 indica que si es Primo   
+        
+        return true;
+    }
+    
+    else {
+        return false;
+    }
+}
